@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>M/J Visual Art 1 — Lesson 11: The Mandala</title>
+<style>
+/* =====================================================================
+   OPTIMA ART STUDIO  ·  shared lesson stylesheet  ·  v1.0  (2026-09-28)
+   One file, both courses (M/J Visual Art 1 · 2D Studio Art 2).
+   Do not fork this per lesson. Change it here, rebuild, done.
+   ===================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,400;9..144,600;9..144,700&family=Nunito:wght@400;600;700;800&display=swap');
+
+/* ---------- tokens ---------- */
+:root {
+  /* paper + ink */
+  --paper:      #FAF6EE;   /* page background: warm, not white */
+  --card:       #FFFDF8;   /* card surface */
+  --ink:        #22304A;   /* body text: soft navy, not black */
+  --ink-soft:   #5B667A;   /* secondary text */
+  --line:       #E7DFD0;   /* hairlines */
+
+  /* brand (header strip only) */
+  --brand-navy: #0E1C42;
+  --brand-sky:  #55C8E8;
+
+  /* accents: each has ONE job */
+  --learn:      #1E8C7C;   /* teal   · learning, correct, "look" */
+  --learn-soft: #E3F2EF;
+  --make:       #D96A4B;   /* terracotta · doing, making, try again */
+  --make-soft:  #FBE9E2;
+  --spark:      #E0A93A;   /* mustard · tips, highlights, big idea */
+  --spark-soft: #FBF1D6;
+  --wonder:     #7A5C9E;   /* plum · reflection, wonder, opinion */
+  --wonder-soft:#EFE9F6;
+  --caution:    #B5322A;   /* red · AI-awareness callout ONLY */
+  --caution-soft:#F9E3E1;
+
+  --radius: 16px;
+  --radius-sm: 10px;
+  --shadow: 0 4px 14px rgba(34,48,74,.07), 0 1px 2px rgba(34,48,74,.05);
+  --display: 'Fraunces', Georgia, 'Times New Roman', serif;
+  --body: 'Nunito', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+/* course voice: middle school gets slightly larger type and rounder corners */
+.course-va1 { --radius: 20px; --radius-sm: 12px; font-size: 18px; }
+.course-sa2 { font-size: 17px; }
+
+/* ---------- base ---------- */
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; color-scheme: light; }
+body {
+  margin: 0; background: var(--paper); color: var(--ink);
+  font-family: var(--body); line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+img { max-width: 100%; height: auto; display: block; }
+a { color: var(--learn); text-decoration-thickness: 2px; text-underline-offset: 3px; }
+h1, h2, h3 { font-family: var(--display); font-weight: 600; line-height: 1.2; margin: 0; color: var(--ink); }
+p { margin: 0 0 1em; }
+p:last-child { margin-bottom: 0; }
+button { font-family: inherit; font-size: inherit; cursor: pointer; color: var(--ink); }
+:focus-visible { outline: 3px solid var(--brand-sky); outline-offset: 3px; border-radius: 6px; }
+
+.page { max-width: 980px; margin: 0 auto; }
+.body { padding: 8px 28px 40px; }
+@media (max-width: 600px) { .body { padding: 8px 16px 32px; } }
+
+/* ---------- brand strip (slim; brand lives here and nowhere else) ---------- */
+.brand {
+  background: var(--brand-navy); color: #fff;
+  display: flex; align-items: center; gap: 12px; padding: 10px 28px;
+  border-bottom: 4px solid var(--brand-sky);
+  font-size: 14px;
+}
+.brand img { width: 40px; height: 40px; object-fit: cover; object-position: center; background: #fff; border-radius: 50%; padding: 0; }
+.brand .brand-name { font-weight: 700; letter-spacing: .2px; }
+.brand .brand-course { margin-left: auto; color: var(--brand-sky); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; font-size: 12px; }
+
+/* ---------- hero ---------- */
+.hero { padding: 34px 0 10px; }
+.hero .crumb { font-size: 13px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; color: var(--make); margin-bottom: 8px; }
+.hero h1 { font-size: clamp(30px, 4.5vw, 44px); font-weight: 700; }
+.hero h1 .squiggle { display: block; width: 120px; height: 10px; margin-top: 8px; }
+.hero .lede { font-size: 1.15em; color: var(--ink-soft); max-width: 60ch; margin-top: 14px; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+.chip {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: var(--card); border: 1.5px solid var(--line); border-radius: 999px;
+  padding: 5px 13px; font-size: 13px; font-weight: 700; color: var(--ink-soft);
+}
+.chip svg { width: 14px; height: 14px; }
+.chip.time { border-color: var(--spark); color: #8A6414; background: var(--spark-soft); }
+
+/* progress dots (where am I in this studio / module) */
+.path { display: flex; align-items: center; gap: 6px; margin: 18px 0 6px; flex-wrap: wrap; }
+.path .dot {
+  min-width: 30px; height: 30px; padding: 0 10px; border-radius: 999px; display: grid; place-items: center; white-space: nowrap;
+  font-size: 13px; font-weight: 800; background: var(--card); border: 2px solid var(--line); color: var(--ink-soft);
+  text-decoration: none;
+}
+.path .dot.done { background: var(--learn-soft); border-color: var(--learn); color: var(--learn); }
+.path .dot.now  { background: var(--make); border-color: var(--make); color: #fff; transform: scale(1.1); }
+.path .seg { flex: 0 0 18px; height: 2px; background: var(--line); }
+.path .label { margin-left: 8px; font-size: 13px; color: var(--ink-soft); font-weight: 700; }
+
+/* ---------- sections + cards ---------- */
+.section { margin: 34px 0 0; }
+.kicker {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 12px; font-weight: 800; letter-spacing: 1.4px; text-transform: uppercase;
+  padding: 4px 12px 4px 8px; border-radius: 999px; margin-bottom: 12px;
+}
+.kicker svg { width: 16px; height: 16px; }
+.kicker.learn  { background: var(--learn-soft);  color: var(--learn); }
+.kicker.make   { background: var(--make-soft);   color: var(--make); }
+.kicker.spark  { background: var(--spark-soft);  color: #8A6414; }
+.kicker.wonder { background: var(--wonder-soft); color: var(--wonder); }
+.kicker.caution{ background: var(--caution-soft);color: var(--caution); }
+
+.section h2 { font-size: clamp(24px, 3vw, 30px); margin-bottom: 10px; }
+.section h3 { font-size: 20px; margin: 18px 0 6px; }
+
+.card {
+  background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
+  padding: 22px 24px; box-shadow: var(--shadow); margin: 14px 0;
+}
+.card.tint-learn  { background: var(--learn-soft);  border-color: transparent; }
+.card.tint-make   { background: var(--make-soft);   border-color: transparent; }
+.card.tint-spark  { background: var(--spark-soft);  border-color: transparent; }
+.card.tint-wonder { background: var(--wonder-soft); border-color: transparent; }
+.card.tint-caution{ background: var(--caution-soft);border-color: transparent; }
+
+/* "you'll be able to" */
+.goals { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.goals li { position: relative; padding-left: 34px; }
+.goals li::before {
+  content: ''; position: absolute; left: 0; top: 3px; width: 22px; height: 22px; border-radius: 50%;
+  background: var(--learn); mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23000' d='M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm-1.2 14.4-4-4 1.4-1.4 2.6 2.6 5.6-5.6 1.4 1.4-7 7z'/%3E%3C/svg%3E") center/contain no-repeat;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23000' d='M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm-1.2 14.4-4-4 1.4-1.4 2.6 2.6 5.6-5.6 1.4 1.4-7 7z'/%3E%3C/svg%3E") center/contain no-repeat;
+}
+
+/* ---------- figures with "tape" ---------- */
+.fig { position: relative; margin: 18px auto; max-width: 720px; }
+.fig .frame {
+  background: #fff; padding: 12px 12px 10px; border-radius: 6px;
+  box-shadow: 0 8px 22px rgba(34,48,74,.14); transform: rotate(-.6deg);
+}
+.fig .frame img { border-radius: 3px; width: 100%; }
+.fig .tape {
+  position: absolute; top: -12px; left: 50%; width: 110px; height: 28px; transform: translateX(-50%) rotate(-3deg);
+  background: rgba(224,169,58,.55); border-radius: 2px;
+}
+.fig .tape.l { left: 12%; transform: rotate(-9deg); } .fig .tape.r { left: auto; right: 6%; transform: rotate(7deg); }
+.fig figcaption { font-size: 13.5px; color: var(--ink-soft); margin-top: 12px; text-align: center; line-height: 1.5; }
+.fig figcaption a { color: var(--learn); }
+
+/* 2-up / 4-up galleries */
+.gallery { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); margin: 16px 0; }
+.stage { background: var(--card); border: 2px solid var(--line); border-radius: var(--radius); overflow: hidden; transition: border-color .2s, transform .2s; }
+.stage.active { border-color: var(--make); transform: translateY(-3px); box-shadow: var(--shadow); }
+.stage .img { aspect-ratio: 1; overflow: hidden; background: #f1ebe0; }
+.stage .img img { width: 100%; height: 100%; object-fit: cover; }
+.stage .meta { padding: 12px 14px 14px; }
+.stage .n { font-size: 11px; font-weight: 800; letter-spacing: 1.2px; color: var(--make); text-transform: uppercase; }
+.stage h3 { margin: 2px 0 6px; font-size: 19px; }
+.stage p { font-size: 14px; color: var(--ink-soft); }
+.stage .credit { font-size: 11.5px; color: var(--ink-soft); margin-top: 6px; }
+
+/* ---------- interactive: slider ---------- */
+.slider { margin: 10px 0 4px; }
+.slider input[type=range] { width: 100%; accent-color: var(--make); height: 32px; }
+.slider .ticks { display: flex; justify-content: space-between; font-size: 12.5px; font-weight: 700; color: var(--ink-soft); padding: 0 4px; }
+.slider .note { margin-top: 12px; background: var(--card); border-left: 4px solid var(--make); border-radius: var(--radius-sm); padding: 12px 16px; min-height: 60px; }
+
+/* ---------- interactive: quick check ---------- */
+.check { margin: 14px 0; }
+.check .q { display: grid; gap: 10px; background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 16px 18px; margin-bottom: 12px; }
+.check .prompt { font-weight: 700; }
+.opts { display: flex; flex-wrap: wrap; gap: 8px; }
+.opts button {
+  background: #fff; border: 2px solid var(--line); border-radius: 999px; padding: 8px 16px;
+  font-weight: 700; color: var(--ink); transition: all .15s;
+}
+.opts button:hover { border-color: var(--ink-soft); transform: translateY(-1px); }
+.opts button.selected { background: var(--ink); color: #fff; border-color: var(--ink); }
+.opts button.correct { background: var(--learn-soft); border-color: var(--learn); color: var(--learn); }
+.opts button.incorrect { background: var(--make-soft); border-color: var(--make); color: #9E3E24; animation: wiggle .3s; }
+@keyframes wiggle { 25% { transform: translateX(-3px);} 75% { transform: translateX(3px);} }
+.fb { display: none; border-radius: var(--radius-sm); padding: 10px 14px; font-size: .95em; }
+.fb.show { display: block; }
+.fb.correct { background: var(--learn-soft); color: #145F54; }
+.fb.incorrect { background: var(--make-soft); color: #9E3E24; }
+.fb.neutral { background: var(--wonder-soft); color: #4E3A6B; }
+.reset { background: none; border: 1.5px solid var(--line); color: var(--ink-soft); border-radius: 999px; padding: 5px 14px; font-size: 13px; font-weight: 700; }
+.reset:hover { border-color: var(--ink-soft); }
+
+/* ---------- interactive: reveal (flip) cards ---------- */
+.reveals { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); }
+.reveal {
+  position: relative; text-align: left; background: var(--card); border: 2px dashed var(--line);
+  border-radius: var(--radius); padding: 16px 18px; min-height: 96px; transition: all .2s; color: var(--ink);
+}
+.reveal:hover { border-color: var(--wonder); }
+.reveal .front { font-family: var(--display); font-size: 1.15em; font-weight: 600; }
+.reveal .hint { font-size: 12.5px; color: var(--ink-soft); font-weight: 700; margin-top: 6px; }
+.reveal .back { display: none; font-size: .95em; margin-top: 8px; }
+.reveal.open { border-style: solid; border-color: var(--wonder); background: var(--wonder-soft); }
+.reveal.open .back { display: block; } .reveal.open .hint { display: none; }
+
+/* ---------- interactive: steps (accordion, one open at a time) ---------- */
+.steps { display: grid; gap: 8px; }
+.step { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius-sm); overflow: hidden; }
+.step > button {
+  width: 100%; text-align: left; background: none; border: 0; padding: 14px 16px;
+  display: flex; align-items: center; gap: 12px; font-weight: 800; color: var(--ink);
+}
+.step .num { flex: 0 0 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; color: #fff; background: var(--learn); font-size: 14px; }
+.step .body { display: none; padding: 0 16px 16px 58px; color: var(--ink); }
+.step.open .body { display: block; }
+.step.open > button { background: var(--learn-soft); }
+.step .chev { margin-left: auto; transition: transform .2s; }
+.step.open .chev { transform: rotate(180deg); }
+
+/* ---------- interactive: sort into buckets (tap-to-place, keyboard OK) ---------- */
+.sort { display: grid; gap: 14px; }
+.sort .pool { display: flex; flex-wrap: wrap; gap: 8px; min-height: 44px; }
+.sort .token {
+  background: #fff; border: 2px solid var(--ink); border-radius: var(--radius-sm); padding: 8px 12px;
+  font-size: .95em; text-align: left; max-width: 100%;
+}
+.sort .token.picked { background: var(--ink); color: #fff; }
+.sort .buckets { display: grid; gap: 10px; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); }
+.sort .bucket {
+  background: var(--card); border: 2px dashed var(--line); border-radius: var(--radius); padding: 10px; min-height: 84px;
+  text-align: left; font: inherit; display: flex; flex-direction: column; gap: 6px;
+}
+.sort .bucket:hover, .sort .bucket.target { border-color: var(--make); }
+.sort .bucket .bname { font-weight: 800; font-size: 13px; text-transform: uppercase; letter-spacing: 1px; color: var(--make); }
+.sort .bucket .token { font-size: 13.5px; border-width: 1.5px; }
+.sort .token.right { border-color: var(--learn); background: var(--learn-soft); }
+.sort .token.wrong { border-color: var(--make); background: var(--make-soft); }
+.sort .actions { display: flex; gap: 8px; flex-wrap: wrap; }
+
+/* ---------- interactive: checklist with timers ---------- */
+.todo { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.todo li { display: grid; grid-template-columns: 28px 1fr auto; gap: 12px; align-items: start; background: var(--card); border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 12px 14px; }
+.todo input[type=checkbox] { width: 22px; height: 22px; accent-color: var(--learn); margin-top: 2px; }
+.todo li.done { opacity: .6; } .todo li.done .t { text-decoration: line-through; }
+.todo .t strong { display: block; }
+.todo .timer { border: 1.5px solid var(--spark); background: var(--spark-soft); color: #8A6414; border-radius: 999px; padding: 4px 12px; font-weight: 800; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.todo .timer.running { background: var(--spark); color: #fff; }
+
+/* ---------- interactive: sketch pad ---------- */
+.pad { background: #fff; border: 2px solid var(--line); border-radius: var(--radius); overflow: hidden; }
+.pad canvas { width: 100%; touch-action: none; cursor: crosshair; display: block; background: #fff; }
+.pad .tools { display: flex; flex-wrap: wrap; gap: 8px; padding: 10px; border-top: 1px solid var(--line); align-items: center; background: var(--paper); }
+.pad .tools .sw { width: 26px; height: 26px; border-radius: 50%; border: 2px solid #fff; box-shadow: 0 0 0 1.5px var(--line); }
+.pad .tools .sw.on { box-shadow: 0 0 0 2.5px var(--ink); }
+.pad .tools .spacer { flex: 1; }
+.btn { border: 0; border-radius: 999px; padding: 8px 16px; font-weight: 800; background: var(--ink); color: #fff; }
+.btn.ghost { background: none; border: 1.5px solid var(--line); color: var(--ink); }
+.btn.make { background: var(--make); }
+.btn:hover { filter: brightness(1.08); }
+
+/* ---------- interactive: sticky note (saved in this browser) ---------- */
+.sticky {
+  background: #FFF4B8; border-radius: 4px; padding: 18px 20px 14px; transform: rotate(.6deg);
+  box-shadow: 0 6px 16px rgba(34,48,74,.14); position: relative; max-width: 560px;
+}
+.sticky::before { content: ''; position: absolute; top: -10px; left: 24px; width: 70px; height: 20px; background: rgba(224,169,58,.45); transform: rotate(-4deg); }
+.sticky label { font-family: var(--display); font-weight: 600; font-size: 1.1em; display: block; margin-bottom: 8px; }
+.sticky textarea { width: 100%; min-height: 96px; border: 0; background: transparent; font: inherit; resize: vertical; line-height: 1.5; }
+.sticky .saved { font-size: 12px; color: #8A6414; font-weight: 700; }
+
+/* ---------- vocab ---------- */
+.vocab { display: grid; gap: 10px; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
+.vocab .reveal .front { font-size: 1.05em; }
+
+/* ---------- next steps ---------- */
+.next { display: grid; gap: 10px; }
+.next a, .next div.ni { display: flex; gap: 14px; align-items: center; background: var(--card); border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 12px 16px; text-decoration: none; color: var(--ink); }
+.next a:hover { border-color: var(--make); }
+.next .tag { flex: 0 0 auto; font-size: 11px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; padding: 4px 10px; border-radius: 999px; }
+.next .tag.submit { background: var(--make-soft); color: var(--make); }
+.next .tag.lesson { background: var(--learn-soft); color: var(--learn); }
+.next .tag.quiz { background: var(--spark-soft); color: #8A6414; }
+.next .tag.vr { background: var(--wonder-soft); color: var(--wonder); }
+.next small { display: block; color: var(--ink-soft); }
+
+/* ---------- big idea + footer ---------- */
+.bigidea {
+  margin-top: 36px; background: var(--brand-navy); color: #fff; border-radius: var(--radius);
+  padding: 30px 32px; position: relative; overflow: hidden;
+}
+.bigidea::after { content: ''; position: absolute; right: -40px; top: -40px; width: 180px; height: 180px; border-radius: 50%; background: var(--spark); opacity: .18; }
+.bigidea .kicker { background: rgba(255,255,255,.12); color: var(--spark); }
+.bigidea p { font-family: var(--display); font-size: 1.35em; line-height: 1.4; max-width: 46ch; }
+.bigidea p em { color: #FFD98A; font-style: normal; }
+.foot { text-align: center; font-size: 12.5px; color: var(--ink-soft); padding: 26px 0 8px; line-height: 1.6; }
+
+/* ---------- utilities ---------- */
+.two { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); align-items: start; }
+.muted { color: var(--ink-soft); }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
+
+/* ---------- voice guide (v1.1) · a 30-second "why" before each part ---------- */
+.voice {
+  display: grid; grid-template-columns: auto 1fr; gap: 12px 14px; align-items: center;
+  background: var(--card); border: 1px solid var(--line); border-left: 5px solid var(--wonder);
+  border-radius: var(--radius); padding: 14px 16px; margin: 0 0 18px; box-shadow: var(--shadow);
+}
+.voice .play {
+  width: 52px; height: 52px; border-radius: 50%; border: 0; background: var(--wonder); color: #fff;
+  display: grid; place-items: center; box-shadow: 0 3px 10px rgba(122,92,158,.35); transition: transform .15s;
+}
+.voice .play:hover { transform: scale(1.06); }
+.voice .play svg { width: 22px; height: 22px; fill: currentColor; }
+.voice .play .ic-pause { display: none; }
+.voice.playing .play .ic-play { display: none; }
+.voice.playing .play .ic-pause { display: block; }
+.voice .who { font-size: 13px; color: var(--ink-soft); font-weight: 700; letter-spacing: .3px; text-transform: uppercase; }
+.voice .who strong { color: var(--wonder); }
+.voice .hook { font-family: var(--display); font-size: 1.12em; line-height: 1.35; margin-top: 2px; }
+.voice .bar { grid-column: 2; height: 4px; background: var(--wonder-soft); border-radius: 99px; overflow: hidden; }
+.voice .bar i { display: block; height: 100%; width: 0; background: var(--wonder); transition: width .25s linear; }
+.voice .meta { grid-column: 2; display: flex; gap: 12px; align-items: center; font-size: 12.5px; color: var(--ink-soft); font-weight: 700; }
+.voice .meta button { background: none; border: 0; color: var(--wonder); font-weight: 800; padding: 0; text-decoration: underline; text-underline-offset: 3px; }
+.voice .script { grid-column: 1 / -1; display: none; font-size: .95em; color: var(--ink); border-top: 1px dashed var(--line); padding-top: 10px; }
+.voice.open .script { display: block; }
+.voice .preview { display: none; }
+.voice.synth .preview { display: inline; }
+@media (max-width: 480px) { .voice { grid-template-columns: auto 1fr; } }
+
+/* ---------- v1.2: sticky brand strip + scroll art ---------- */
+.brand { position: sticky; top: 0; z-index: 50; }
+.brand .scrollart { width: 64px; height: 64px; margin: -6px 0 -6px auto; flex: 0 0 auto; filter: drop-shadow(0 1px 2px rgba(0,0,0,.35)); }
+.brand .scrollart + .brand-course { margin-left: 12px; }
+@media (max-width: 480px) { .brand .brand-name { display: none; } }
+
+/* ---------- v1.2: sketch pad extras ---------- */
+.pad .tools .wheel { width: 30px; height: 30px; padding: 0; border: 0; border-radius: 50%; background: conic-gradient(red, yellow, lime, cyan, blue, magenta, red); overflow: hidden; cursor: pointer; box-shadow: 0 0 0 1.5px var(--line); }
+.pad .tools .wheel::-webkit-color-swatch-wrapper { padding: 0; } .pad .tools .wheel::-webkit-color-swatch { border: 0; opacity: 0; }
+.pad .tools .wheel::-moz-color-swatch { border: 0; opacity: 0; }
+
+/* ---------- v1.2: vocabulary drawers (museum cabinet) ---------- */
+.cabinet {
+  display: grid; gap: 8px; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  background: #6B4A2B; padding: 14px; border-radius: var(--radius);
+  background-image: repeating-linear-gradient(90deg, rgba(255,255,255,.04) 0 2px, transparent 2px 9px);
+  box-shadow: inset 0 2px 8px rgba(0,0,0,.35), var(--shadow);
+}
+.drawer { position: relative; text-align: left; border: 0; padding: 0; background: none; color: var(--ink); }
+.drawer .front {
+  position: relative; z-index: 2; background: linear-gradient(180deg, #C89B6A, #A97A4B); border-radius: 8px;
+  padding: 14px 16px 16px; box-shadow: 0 3px 0 #7A5230, 0 6px 12px rgba(0,0,0,.3); transition: transform .25s;
+  display: flex; align-items: center; gap: 12px;
+}
+.drawer .plate {
+  background: #F3E3B8; border: 1.5px solid #8E6A2E; border-radius: 3px; padding: 4px 12px;
+  font-family: var(--display); font-weight: 700; font-size: 1.05em; color: #3B2A12; box-shadow: inset 0 0 0 2px #E8D39E;
+}
+.drawer .knob { margin-left: auto; width: 14px; height: 14px; border-radius: 50%; background: radial-gradient(circle at 35% 35%, #FFF1C8, #8E6A2E); box-shadow: 0 1px 2px rgba(0,0,0,.4); }
+.drawer .inside {
+  max-height: 0; overflow: hidden; background: #FFFDF8; border-radius: 0 0 8px 8px; margin: -6px 6px 0; padding: 0 14px;
+  font-size: .95em; line-height: 1.5; transition: max-height .35s ease, padding .35s ease; box-shadow: inset 0 6px 8px -6px rgba(0,0,0,.35);
+}
+.drawer.open .front { transform: translateY(-4px); }
+.drawer.open .inside { max-height: 200px; padding: 16px 14px 12px; }
+.drawer:hover .front { transform: translateY(-2px); }
+
+/* ---------- v1.3: scroll art, side placement (alternative to the banner) ---------- */
+.scrollart.side {
+  position: fixed; right: 22px; top: 50%; transform: translateY(-50%); width: 200px; height: 200px; z-index: 40;
+  filter: drop-shadow(0 6px 14px rgba(34,48,74,.18)); pointer-events: none;
+}
+.scrollart.side::after { content: none; }
+@media (max-width: 1420px) { .scrollart.side { width: 96px; height: 96px; top: auto; bottom: 18px; transform: none; right: 14px; } }
+@media (max-width: 700px)  { .scrollart.side { display: none; } }
+.scrollart.side [stroke="#fff"] { stroke: var(--ink); }
+.scrollart.side [fill="#fff"] { fill: var(--ink); }
+</style>
+</head>
+<body class="course-va1" data-lesson-key="va1-m11-l1">
+<div class="page">
+
+  <header class="brand">
+    <img src="images/owl.png" alt="Optima Academy Online" />
+    <span class="brand-name">Optima Academy Online</span>
+    <span class="brand-course">M/J Visual Art 1</span>
+  </header>
+
+  <main class="body">
+
+    <section class="hero">
+      <div class="crumb">Module 11 · Ancient Indian Art · Week 1</div>
+      <h1>The Mandala: Order Around a Center
+        <svg class="squiggle" viewBox="0 0 120 10" aria-hidden="true"><path d="M2 6 Q 12 0, 22 6 T 42 6 T 62 6 T 82 6 T 102 6 T 118 6" fill="none" stroke="#D96A4B" stroke-width="3" stroke-linecap="round"/></svg>
+      </h1>
+      <p class="lede">How can one center point hold a whole design together, so the same pattern repeats evenly in every direction?</p>
+      <div class="chips">
+        <span class="chip time"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>About 40 min</span>
+        <span class="chip">Learn &amp; Look</span>
+        <span class="chip">This week you'll make: your own mandala</span>
+      </div>
+      <div class="voice" data-audio="audio/va1-m11-l1-p0.mp3" style="margin-top:26px">
+        <button class="play" aria-label="Play your guide"><svg class="ic-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg><svg class="ic-pause" viewBox="0 0 24 24"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg></button>
+        <div><div class="who">Meet your guide · <strong>Anika Rao</strong>, museum educator</div><div class="hook">Something made three hundred years ago. By the end of the lesson, you'll have made one of your own.</div></div>
+        <div class="bar"><i></i></div>
+        <div class="meta"><span>20 sec</span><button class="read">Read the words</button><span class="preview">Preview voice until the recording is added</span></div>
+        <div class="script">Hello. I'm Anika Rao, and I work in a museum, helping people see. This week we're going to look at something made in India more than three hundred years ago, and by the end of the lesson, you'll have made one of your own. Along the way I'll pop in with a question or two. You can skip me if you like. But I'd rather you didn't.</div>
+      </div>
+    </section>
+
+    <section class="section">
+      <span class="kicker learn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 12l5 5L20 6"/></svg>By the end of this lesson</span>
+      <div class="card">
+        <ul class="goals">
+          <li>I can explain what a mandala is and why it matters in Hindu and Buddhist traditions.</li>
+          <li>I can define <strong>pattern</strong> and <strong>radial balance</strong> and point to them in a real artwork.</li>
+          <li>I can plan a mandala of my own that repeats one design evenly around a center.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- LOOK FIRST with spin -->
+    <section class="section">
+      <span class="kicker learn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>Part 1 · Look first</span>
+      <div class="voice" data-audio="audio/va1-m11-l1-p1.mp3">
+        <button class="play" aria-label="Play your guide"><svg class="ic-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg><svg class="ic-pause" viewBox="0 0 24 24"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg></button>
+        <div><div class="who">Your guide · <strong>Anika Rao</strong>, museum educator</div><div class="hook">Most visitors give a piece eight seconds. Let's give this one a full minute.</div></div>
+        <div class="bar"><i></i></div>
+        <div class="meta"><span>30 sec</span><button class="read">Read the words</button><span class="preview">Preview voice until the recording is added</span></div>
+        <div class="script">Hi, I'm Anika Rao. I spend my days in a museum helping people see. Here's a secret: most visitors look at a piece for about eight seconds. This carved block took someone months. So before we name anything, give it one full minute. Let your eyes start at the center and travel outward. What keeps pulling you back to the middle? Hold that question. Then press spin.</div>
+      </div>
+      <h2>Before we name anything, let's look.</h2>
+      <p>This mandala was carved into a block of wood in India or the Himalayas in the 1700s. A block like this was inked and pressed to print the same mandala again and again. Spend a full minute looking. Then press <strong>Spin it</strong> and see what happens.</p>
+      <figure class="fig">
+        <span class="tape l"></span><span class="tape r"></span>
+        <div class="frame"><img id="block" data-art="woodblock" alt="A mandala carved into a square block of brown wood: a small round medallion at the center, an eight-pointed star around it, then ring after ring of carved swirling patterns out to the edge." /></div>
+        <figcaption>Carved wooden block for printing mandalas, India / Himalayan region, 1700s. The whole design radiates evenly from the center.</figcaption>
+      </figure>
+      <div class="card tint-make" style="display:flex;flex-wrap:wrap;gap:12px;align-items:center">
+        <button class="btn make" data-spin="#block" data-deg="45" data-out="#deg">Spin it 45°</button>
+        <span>Turned so far: <strong id="deg">0°</strong></span>
+        <span class="muted">Notice: it looks almost the same every time. That's the clue.</span>
+      </div>
+
+      <h3>See · Notice · Wonder</h3>
+      <div class="reveals">
+        <button class="reveal"><div class="front">What do you SEE?</div><div class="hint">Tap after you've looked</div><div class="back">A square block of carved brown wood. At the very center, a small round medallion. Around it an eight-pointed star, then ring after ring of carved, swirling patterns spreading to the edge.</div></button>
+        <button class="reveal"><div class="front">What do you NOTICE?</div><div class="hint">Tap after you've looked</div><div class="back">Everything spreads out from that one center point. When you turned it, it looked almost the same, because the shapes repeat evenly on every side. It feels ordered and calm, not lopsided.</div></button>
+        <button class="reveal"><div class="front">What do you WONDER?</div><div class="hint">Tap after you've looked</div><div class="back">Why carve a mandala into wood instead of painting it? A carved block can be inked and printed many times. By the end of this lesson you'll be able to explain the design with two ideas: pattern and radial balance.</div></button>
+      </div>
+    </section>
+
+    <!-- NAME IT -->
+    <section class="section">
+      <span class="kicker learn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 5h16v12H8l-4 4V5z"/></svg>Part 2 · Name what you see</span>
+      <div class="voice" data-audio="audio/va1-m11-l1-p2.mp3">
+        <button class="play" aria-label="Play your guide"><svg class="ic-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg><svg class="ic-pause" viewBox="0 0 24 24"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg></button>
+        <div><div class="who">Your guide · <strong>Anika Rao</strong>, museum educator</div><div class="hook">You already noticed two ideas. Now they get names.</div></div>
+        <div class="bar"><i></i></div>
+        <div class="meta"><span>25 sec</span><button class="read">Read the words</button><span class="preview">Preview voice until the recording is added</span></div>
+        <div class="script">Now that you've looked, let's find words for what you saw. Two words, actually. One is about repeating. One is about a center. Artists across India have used these two ideas for more than a thousand years, and you'll use them yourself this week. As you read, ask yourself: which of the two did I notice first, before I knew its name?</div>
+      </div>
+      <h2>What is a mandala?</h2>
+      <p>A mandala is a geometric design that radiates outward from a center point. The word comes from Sanskrit, an ancient language of India, and means "circle." Mandalas are used in the Hindu and Buddhist traditions as a symbol of the universe and as an aid to meditation. A person may look slowly from the outside toward the calm center to help focus and quiet the mind. Because these designs carry deep religious meaning, artists and viewers treat them with respect.</p>
+
+      <div class="two">
+        <div class="card tint-learn">
+          <span class="kicker learn">Radial balance</span>
+          <p>A design arranged evenly around one central point, so it spreads out in every direction like spokes on a wheel or rays from the sun.</p>
+          <p class="muted">In the woodblock: every carved ring and the eight-pointed star circle the small center medallion, and each side matches the others.</p>
+        </div>
+        <div class="card tint-make">
+          <span class="kicker make">Pattern</span>
+          <p>The same shape, line, or color repeated again and again.</p>
+          <p class="muted">In the woodblock: the same scroll shape repeats all the way around each ring, and the eight star points repeat evenly around the center.</p>
+        </div>
+      </div>
+      <p class="muted">Two more elements quietly help: <strong>line</strong> (the rings and the lines that divide sections) and <strong>texture</strong> (deep carving gives the wood a rich, raised surface).</p>
+
+      <figure class="fig">
+        <span class="tape"></span>
+        <div class="frame"><img data-art="manjushri" alt="A richly painted mandala: a large circle inside a square frame, with rings of red, gold, blue, and green radiating from a small seated figure at the exact center." /></div>
+        <figcaption>Painted Manjushri mandala, India / Himalayan region, about 1456. Everything is arranged evenly around the center: that is radial balance.</figcaption>
+      </figure>
+    </section>
+
+    <!-- QUICK CHECK -->
+    <section class="section">
+      <span class="kicker make"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 1 1 3.5 2.3c-.7.4-1 1-1 1.7M12 17h.01"/></svg>Quick check · Spot the idea</span>
+      <p>Which idea best fits each thing you can find in the mandala? Tap your answer.</p>
+      <div class="check">
+        <div class="q" data-correct="radial" data-hint="Think about the word that means 'around a center'.">
+          <div class="prompt">Every carved ring and the star circle the one medallion at the exact center, and each side matches.</div>
+          <div class="opts"><button data-choice="radial" data-fb="Yes. A design arranged evenly around a central point is RADIAL BALANCE.">Radial balance</button><button data-choice="texture">Texture</button><button data-choice="space">Space</button></div>
+        </div>
+        <div class="q" data-correct="pattern" data-hint="Something is happening 'again and again'. Which word means that?">
+          <div class="prompt">The same carved scroll shape repeats again and again all the way around each ring.</div>
+          <div class="opts"><button data-choice="value">Value</button><button data-choice="pattern" data-fb="Right. A shape repeated again and again is PATTERN.">Pattern</button><button data-choice="form">Form</button></div>
+        </div>
+        <div class="q" data-correct="radial" data-hint="You proved this one yourself with the Spin button.">
+          <div class="prompt">If you turned the whole design partway around, it would look almost the same.</div>
+          <div class="opts"><button data-choice="line">Line</button><button data-choice="color">Color</button><button data-choice="radial" data-fb="Exactly. Looking the same when you turn it is the sign of RADIAL BALANCE around a center.">Radial balance</button></div>
+        </div>
+        <button class="reset">Reset</button>
+      </div>
+    </section>
+
+    <!-- WATCH IT WORK: critique steps -->
+    <section class="section">
+      <span class="kicker wonder"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>Part 3 · Watch it work</span>
+      <div class="voice" data-audio="audio/va1-m11-l1-p3.mp3">
+        <button class="play" aria-label="Play your guide"><svg class="ic-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg><svg class="ic-pause" viewBox="0 0 24 24"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg></button>
+        <div><div class="who">Your guide · <strong>Anika Rao</strong>, museum educator</div><div class="hook">Why do artists look in a certain order? Because judging first closes your eyes.</div></div>
+        <div class="bar"><i></i></div>
+        <div class="meta"><span>25 sec</span><button class="read">Read the words</button><span class="preview">Preview voice until the recording is added</span></div>
+        <div class="script">Here's something artists and museum people do that most viewers skip. We look in an order. Describe first. Then how it's built. Then what it might mean. And only at the end, whether it's good. Why that order? Because judging first closes your eyes. Open each step below and see if the order changes what you notice.</div>
+      </div>
+      <h2>How an artist reads this mandala</h2>
+      <p>Artists look in a careful order: describe, then analyze, then interpret, and only then judge. Open each step.</p>
+      <div class="steps">
+        <div class="step open"><button aria-expanded="true"><span class="num">1</span>Describe · what is there?<svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></button><div class="body">A square block of carved wood, a small round medallion at the center, an eight-pointed star around it, and ring after ring of carved scrolling patterns spreading out to the edge.</div></div>
+        <div class="step"><button aria-expanded="false"><span class="num">2</span>Analyze · how is it built?<svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></button><div class="body">The design uses radial balance, spreading out evenly from the center. Pattern repeats the carved scrolls in every ring and the eight points of the star. Line divides the rings, and the deep carving gives it texture.</div></div>
+        <div class="step"><button aria-expanded="false"><span class="num">3</span>Interpret · what might it mean?<svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></button><div class="body">In Hindu and Buddhist traditions the mandala stands for the ordered universe, with a calm and important center that everything circles around.</div></div>
+        <div class="step"><button aria-expanded="false"><span class="num">4</span>Judge · does it succeed?<svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></button><div class="body">Many viewers say yes: the careful balance and repeating pattern make the design feel orderly and calm, which is exactly what it was made to do.</div></div>
+      </div>
+    </section>
+
+    <!-- TRY IT: kaleidoscope pad -->
+    <section class="section">
+      <span class="kicker make"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 20l4-1 11-11-3-3L5 16l-1 4zM13 6l3 3"/></svg>Try it · Draw one section, get eight</span>
+      <div class="voice" data-audio="audio/va1-m11-l1-p4.mp3">
+        <button class="play" aria-label="Play your guide"><svg class="ic-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg><svg class="ic-pause" viewBox="0 0 24 24"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg></button>
+        <div><div class="who">Your guide · <strong>Anika Rao</strong>, museum educator</div><div class="hook">Enough looking. This pad does the folding for you.</div></div>
+        <div class="bar"><i></i></div>
+        <div class="meta"><span>25 sec</span><button class="read">Read the words</button><span class="preview">Preview voice until the recording is added</span></div>
+        <div class="script">Okay, enough looking. In a real studio you'd fold a circle into eight sections and draw in just one. This pad does the folding for you: every stroke you make shows up eight times. Start with one simple shape, a curve or a petal. Then ask the question you'll be answering all week: which shapes look best when they repeat?</div>
+      </div>
+      <h2>Your first mandala, in 60 seconds</h2>
+      <p>This pad repeats every stroke you make eight times around the center, just like folding a circle into sections. Draw one simple shape and watch it become a pattern. This is exactly what you'll do by hand this week.</p>
+      <div class="pad">
+        <canvas width="560" height="560" data-sym="8" data-name="my-first-mandala" aria-label="Mandala drawing pad"></canvas>
+        <div class="tools">
+          <button class="sw on" data-c="#22304A" aria-label="Ink"></button>
+          <button class="sw" data-c="#D96A4B" aria-label="Terracotta"></button>
+          <button class="sw" data-c="#1E8C7C" aria-label="Teal"></button>
+          <button class="sw" data-c="#E0A93A" aria-label="Gold"></button>
+          <button class="sw" data-c="#7A5C9E" aria-label="Plum"></button>
+          <button class="sw" data-c="#ffffff" aria-label="Eraser"></button>
+          <input class="wheel" type="color" value="#22304A" aria-label="Pick any color" title="Any color" />
+          <input class="size" type="range" min="2" max="20" value="5" aria-label="Brush size" />
+          <span class="spacer"></span>
+          <button class="btn ghost undo">Undo</button>
+          <button class="btn ghost clear">Clear</button>
+          <button class="btn dl">Download PNG</button>
+        </div>
+      </div>
+      <div class="sticky" style="margin-top:22px">
+        <label for="n1">Which simple shape looked best when it repeated? Why?</label>
+        <textarea id="n1" data-k="bestshape" placeholder="One or two sentences…"></textarea>
+        <div class="saved"></div>
+      </div>
+    </section>
+
+    <!-- AI awareness -->
+    <section class="section">
+      <div class="card tint-caution">
+        <span class="kicker caution"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 3l10 18H2L12 3zM12 10v5M12 18h.01"/></svg>Worth knowing · AI &amp; art</span>
+        <p>An AI tool can generate a perfectly symmetrical mandala in an instant. It cannot give you the patience and precision of building radial balance by hand, fold by fold and section by section. That careful focus is the discipline this project teaches, and it is yours.</p>
+      </div>
+    </section>
+
+    <!-- VOCAB -->
+    <section class="section">
+      <span class="kicker wonder"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 5h16v12H8l-4 4V5z"/></svg>Vocabulary · open a drawer</span>
+      <p class="muted">Museums keep their labels in cabinets. Pull a drawer to read the card inside.</p>
+      <div class="cabinet">
+        <button class="drawer" aria-expanded="false"><div class="front"><span class="plate">Mandala</span><span class="knob"></span></div><div class="inside">A geometric design that radiates from a center point. The Sanskrit word means "circle."</div></button>
+        <button class="drawer" aria-expanded="false"><div class="front"><span class="plate">Radial balance</span><span class="knob"></span></div><div class="inside">A design arranged evenly around one central point.</div></button>
+        <button class="drawer" aria-expanded="false"><div class="front"><span class="plate">Pattern</span><span class="knob"></span></div><div class="inside">The same shape, line, or color repeated again and again.</div></button>
+        <button class="drawer" aria-expanded="false"><div class="front"><span class="plate">Symmetry</span><span class="knob"></span></div><div class="inside">When parts match evenly across a line or around a center.</div></button>
+        <button class="drawer" aria-expanded="false"><div class="front"><span class="plate">Hindu / Buddhist</span><span class="knob"></span></div><div class="inside">Two major religious traditions of India in which mandalas are used.</div></button>
+        <button class="drawer" aria-expanded="false"><div class="front"><span class="plate">Meditation</span><span class="knob"></span></div><div class="inside">Quiet, focused thought. Mandalas can be an aid to it.</div></button>
+      </div>
+    </section>
+
+    <!-- NEXT -->
+    <section class="section">
+      <span class="kicker make"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg>What you'll do next</span>
+      <div class="next">
+        <div class="ni"><span class="tag submit">Sketch</span><span><strong>Section Design Practice</strong><small>Practice the simple shapes you'll repeat before you build the full mandala.</small></span></div>
+        <div class="ni"><span class="tag vr">VR</span><span><strong>A Mandala Gallery Walk</strong><small>Visit a virtual gallery and look closely at radial designs from around the world.</small></span></div>
+        <div class="ni"><span class="tag quiz">Quiz</span><span><strong>Mandalas, Pattern &amp; Radial Balance</strong><small>A short check on the meaning of mandalas and the two key ideas.</small></span></div>
+        <div class="ni"><span class="tag submit">Artwork</span><span><strong>Mandala Design (Week 2)</strong><small>Your major project: a mandala that repeats one design evenly around a center.</small></span></div>
+      </div>
+    </section>
+
+    <section class="bigidea">
+      <span class="kicker">The big idea</span>
+      <p>A mandala turns one center point and a repeating pattern into a whole, balanced design. Learn to see <em>radial balance</em> and <em>pattern</em>, and you'll spot them everywhere: flowers, wheels, windows, and art from cultures all over the world.</p>
+    </section>
+
+    <footer class="foot">Optima Academy Online · M/J Visual Art 1 · Module 11 · Lesson · Week 1</footer>
+  </main>
+</div>
+<svg class="scrollart side" data-scrollart="mandala" aria-hidden="true"></svg>
+<script>
+/* =====================================================================
+   OPTIMA ART STUDIO · shared lesson interactions · v1.0 (2026-09-28)
+   Everything is data-attribute driven. No per-lesson JS needed.
+   Works with mouse, touch, and keyboard. localStorage is a nicety only.
+   ===================================================================== */
+(function () {
+  'use strict';
+  var KEY = (document.body.dataset.lessonKey || location.pathname) + '::';
+  function save(k, v) { try { localStorage.setItem(KEY + k, v); } catch (e) {} }
+  function load(k) { try { return localStorage.getItem(KEY + k); } catch (e) { return null; } }
+
+  /* ---- quick check: .check [data-correct] .opts button[data-choice] ---- */
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest('.check .opts button');
+    if (!b) return;
+    var q = b.closest('.q');
+    var opts = q.querySelectorAll('.opts button');
+    opts.forEach(function (x) { x.classList.remove('selected', 'correct', 'incorrect'); });
+    var fb = q.querySelector('.fb') || q.appendChild(document.createElement('div'));
+    fb.className = 'fb show';
+    if (q.dataset.correct) {                 /* right/wrong mode */
+      var right = b.dataset.choice === q.dataset.correct;
+      b.classList.add(right ? 'correct' : 'incorrect');
+      fb.classList.add(right ? 'correct' : 'incorrect');
+      fb.textContent = right ? (b.dataset.fb || q.dataset.fb || 'Yes, that is it.')
+                             : (b.dataset.fb || q.dataset.hint || 'Not quite. Look again and try another.');
+    } else {                                 /* opinion mode: every answer gets a response */
+      b.classList.add('selected');
+      fb.classList.add('neutral');
+      fb.textContent = b.dataset.fb || '';
+    }
+  });
+  document.addEventListener('click', function (e) {
+    var r = e.target.closest('.check .reset');
+    if (!r) return;
+    var c = r.closest('.check');
+    c.querySelectorAll('.opts button').forEach(function (x) { x.classList.remove('selected', 'correct', 'incorrect'); });
+    c.querySelectorAll('.fb').forEach(function (f) { f.className = 'fb'; f.textContent = ''; });
+  });
+
+  /* ---- reveal cards: button.reveal ---- */
+  document.addEventListener('click', function (e) {
+    var r = e.target.closest('.reveal'); if (r) r.classList.toggle('open');
+  });
+
+  /* ---- steps accordion: .steps > .step > button ---- */
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest('.step > button'); if (!b) return;
+    var s = b.parentElement, all = s.parentElement.querySelectorAll('.step');
+    var open = s.classList.contains('open');
+    all.forEach(function (x) { x.classList.remove('open'); x.querySelector('button').setAttribute('aria-expanded', 'false'); });
+    if (!open) { s.classList.add('open'); b.setAttribute('aria-expanded', 'true'); }
+  });
+
+  /* ---- slider: .slider input[data-target="#id"] ; targets .stage[data-i] and .note[data-i] ---- */
+  document.querySelectorAll('.slider input[type=range]').forEach(function (r) {
+    var tgt = document.querySelector(r.dataset.target || 'body');
+    var notes = r.closest('.slider').querySelectorAll('[data-note]');
+    var note = r.closest('.slider').querySelector('.note');
+    function go() {
+      var v = String(r.value);
+      tgt.querySelectorAll('.stage').forEach(function (s) { s.classList.toggle('active', s.dataset.i === v); });
+      notes.forEach(function (n) { if (n.dataset.note === v && note) note.innerHTML = n.innerHTML; });
+    }
+    r.addEventListener('input', go); go();
+  });
+
+  /* ---- sort: .sort  .pool .token[data-a="bucketKey"]  .bucket[data-b="bucketKey"] ---- */
+  document.querySelectorAll('.sort').forEach(function (s) {
+    var picked = null;
+    s.addEventListener('click', function (e) {
+      var t = e.target.closest('.token');
+      var b = e.target.closest('.bucket');
+      if (t && !s.classList.contains('checked')) {
+        if (picked === t) { t.classList.remove('picked'); picked = null; s.classList.remove('picking'); return; }
+        s.querySelectorAll('.token').forEach(function (x) { x.classList.remove('picked'); });
+        t.classList.add('picked'); picked = t; s.classList.add('picking');
+        s.querySelectorAll('.bucket').forEach(function (x) { x.classList.add('target'); });
+        return;
+      }
+      if (b && picked) {
+        b.appendChild(picked); picked.classList.remove('picked'); picked = null;
+        s.querySelectorAll('.bucket').forEach(function (x) { x.classList.remove('target'); });
+        s.classList.remove('picking');
+      }
+    });
+    var chk = s.querySelector('.sort-check'), rst = s.querySelector('.sort-reset'), out = s.querySelector('.fb');
+    if (chk) chk.addEventListener('click', function () {
+      var n = 0, ok = 0;
+      s.querySelectorAll('.bucket .token').forEach(function (t) {
+        n++; var good = t.dataset.a === t.closest('.bucket').dataset.b; if (good) ok++;
+        t.classList.add(good ? 'right' : 'wrong');
+      });
+      var left = s.querySelectorAll('.pool .token').length;
+      if (out) { out.className = 'fb show ' + (ok === n && !left ? 'correct' : 'incorrect');
+        out.textContent = left ? 'Place every card first (' + left + ' left).'
+          : ok === n ? 'All ' + n + ' sorted correctly. You can name the stages by sight.'
+          : ok + ' of ' + n + ' right. Move the ones marked in coral, then check again.'; }
+      if (ok === n && !left) s.classList.add('checked');
+    });
+    if (rst) rst.addEventListener('click', function () {
+      var pool = s.querySelector('.pool');
+      s.querySelectorAll('.bucket .token').forEach(function (t) { t.classList.remove('right', 'wrong'); pool.appendChild(t); });
+      s.classList.remove('checked'); if (out) { out.className = 'fb'; out.textContent = ''; }
+    });
+  });
+
+  /* ---- checklist + timers: .todo li  input[type=checkbox][data-k]  .timer[data-min] ---- */
+  document.querySelectorAll('.todo input[type=checkbox]').forEach(function (c) {
+    var k = 'todo:' + (c.dataset.k || c.id);
+    if (load(k) === '1') { c.checked = true; c.closest('li').classList.add('done'); }
+    c.addEventListener('change', function () { c.closest('li').classList.toggle('done', c.checked); save(k, c.checked ? '1' : '0'); });
+  });
+  document.querySelectorAll('.todo .timer').forEach(function (t) {
+    var total = Math.round(parseFloat(t.dataset.min || '5') * 60), left = total, id = null;
+    function show() { var m = Math.floor(left / 60), s = left % 60; t.textContent = (id ? '' : '▶ ') + m + ':' + (s < 10 ? '0' : '') + s; }
+    show();
+    t.addEventListener('click', function () {
+      if (id) { clearInterval(id); id = null; t.classList.remove('running'); show(); return; }
+      if (left <= 0) left = total;
+      t.classList.add('running');
+      id = setInterval(function () { left--; show(); if (left <= 0) { clearInterval(id); id = null; t.classList.remove('running'); t.textContent = 'Time!'; } }, 1000);
+      show();
+    });
+  });
+
+  /* ---- sticky note: .sticky textarea[data-k] ---- */
+  document.querySelectorAll('.sticky textarea').forEach(function (ta) {
+    var k = 'note:' + (ta.dataset.k || ta.id), st = ta.closest('.sticky').querySelector('.saved'), tm;
+    var v = load(k); if (v) { ta.value = v; if (st) st.textContent = 'Saved in this browser'; }
+    ta.addEventListener('input', function () {
+      clearTimeout(tm); if (st) st.textContent = 'Saving…';
+      tm = setTimeout(function () { save(k, ta.value); if (st) st.textContent = 'Saved in this browser'; }, 500);
+    });
+  });
+
+  /* ---- sketch pad: .pad canvas[data-sym="1|4|6|8"] ; .pad .tools .sw[data-c] .size .clear .dl ---- */
+  document.querySelectorAll('.pad').forEach(function (pad) {
+    var cv = pad.querySelector('canvas'), ctx = cv.getContext('2d');
+    var sym = parseInt(cv.dataset.sym || '1', 10), color = '#22304A', size = 4, drawing = false, last = null;
+    var W = cv.width, H = cv.height, cx = W / 2, cy = H / 2;
+    function reset() {
+      ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, W, H);
+      if (sym > 1) {  /* faint guide wedges + center */
+        ctx.save(); ctx.strokeStyle = '#E7DFD0'; ctx.lineWidth = 1; ctx.setLineDash([4, 6]);
+        for (var i = 0; i < sym; i++) { var a = i * 2 * Math.PI / sym; ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(cx + Math.cos(a) * W, cy + Math.sin(a) * H); ctx.stroke(); }
+        ctx.setLineDash([]); ctx.beginPath(); ctx.arc(cx, cy, Math.min(W, H) * .46, 0, Math.PI * 2); ctx.stroke(); ctx.restore();
+      }
+    }
+    function pos(e) { var r = cv.getBoundingClientRect(); var p = e.touches ? e.touches[0] : e; return { x: (p.clientX - r.left) * W / r.width, y: (p.clientY - r.top) * H / r.height }; }
+    function seg(a, b) {
+      ctx.strokeStyle = color; ctx.lineWidth = size; ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+      for (var i = 0; i < sym; i++) {
+        var th = i * 2 * Math.PI / sym;
+        ctx.save(); ctx.translate(cx, cy); ctx.rotate(th); ctx.translate(-cx, -cy);
+        ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
+        if (sym > 1) { /* mirror each wedge too, so one stroke becomes a true radial pattern */
+          ctx.translate(cx, cy); ctx.scale(1, -1); ctx.translate(-cx, -cy);
+          ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
+        }
+        ctx.restore();
+      }
+    }
+    var history = [];
+    function snapshot() { try { history.push(ctx.getImageData(0, 0, W, H)); if (history.length > 40) history.shift(); } catch (err) {} }
+    function down(e) { snapshot(); drawing = true; last = pos(e); seg(last, last); e.preventDefault(); }
+    function move(e) { if (!drawing) return; var p = pos(e); seg(last, p); last = p; e.preventDefault(); }
+    function up() { drawing = false; last = null; }
+    var undo = pad.querySelector('.undo'); if (undo) undo.addEventListener('click', function () { var s = history.pop(); if (s) ctx.putImageData(s, 0, 0); });
+    var wheel = pad.querySelector('.wheel'); if (wheel) wheel.addEventListener('input', function () { color = wheel.value; pad.querySelectorAll('.sw').forEach(function (x) { x.classList.remove('on'); }); });
+    cv.addEventListener('mousedown', down); cv.addEventListener('mousemove', move); window.addEventListener('mouseup', up);
+    cv.addEventListener('touchstart', down, { passive: false }); cv.addEventListener('touchmove', move, { passive: false }); cv.addEventListener('touchend', up);
+    pad.querySelectorAll('.sw').forEach(function (s) {
+      s.style.background = s.dataset.c;
+      s.addEventListener('click', function () { color = s.dataset.c; pad.querySelectorAll('.sw').forEach(function (x) { x.classList.remove('on'); }); s.classList.add('on'); });
+    });
+    var sz = pad.querySelector('.size'); if (sz) sz.addEventListener('input', function () { size = parseInt(sz.value, 10); });
+    var cl = pad.querySelector('.clear'); if (cl) cl.addEventListener('click', function () { snapshot(); reset(); });
+    var dl = pad.querySelector('.dl'); if (dl) dl.addEventListener('click', function () {
+      var a = document.createElement('a'); a.download = (cv.dataset.name || 'sketch') + '.png'; a.href = cv.toDataURL('image/png'); a.click();
+    });
+    reset();
+  });
+
+  /* ---- spin button: [data-spin="#imgId"] rotates target by data-deg each click ---- */
+  document.querySelectorAll('[data-spin]').forEach(function (b) {
+    var t = document.querySelector(b.dataset.spin), deg = parseFloat(b.dataset.deg || '45'), cur = 0;
+    t.style.transition = 'transform .6s cubic-bezier(.2,.8,.2,1)';
+    b.addEventListener('click', function () { cur += deg; t.style.transform = 'rotate(' + cur + 'deg)'; var o = document.querySelector(b.dataset.out); if (o) o.textContent = (cur % 360) + '°'; });
+  });
+})();
+
+/* ---- voice guide (v1.1): .voice[data-audio="audio/x.mp3"] .play  .script  .read ----
+   Plays the MP3 if it exists. If it does not (yet), reads the .script aloud with the
+   browser's own voice so the page works before the ElevenLabs file is dropped in. */
+(function () {
+  'use strict';
+  var current = null;
+  function stopAll() {
+    document.querySelectorAll('.voice.playing').forEach(function (v) {
+      v.classList.remove('playing'); if (v._audio) v._audio.pause();
+    });
+    if (window.speechSynthesis) window.speechSynthesis.cancel();
+    current = null;
+  }
+  document.querySelectorAll('.voice').forEach(function (v) {
+    var play = v.querySelector('.play'), bar = v.querySelector('.bar i'), read = v.querySelector('.read');
+    var script = v.querySelector('.script'), text = script ? script.textContent.trim() : '';
+    var src = v.dataset.audio, audio = null, usable = null;
+    if (src) {
+      audio = new Audio(src); v._audio = audio;
+      audio.addEventListener('canplaythrough', function () { usable = true; });
+      audio.addEventListener('error', function () { usable = false; v.classList.add('synth'); });
+      audio.addEventListener('timeupdate', function () { if (bar && audio.duration) bar.style.width = (audio.currentTime / audio.duration * 100) + '%'; });
+      audio.addEventListener('ended', function () { v.classList.remove('playing'); if (bar) bar.style.width = '0'; current = null; });
+      audio.load();
+    } else { v.classList.add('synth'); }
+    function speak() {
+      if (!window.speechSynthesis || !text) return;
+      var u = new SpeechSynthesisUtterance(text); u.rate = 0.95; u.pitch = 1;
+      var vs = window.speechSynthesis.getVoices();
+      var pick = vs.filter(function (x) { return /en/i.test(x.lang) && /Natural|Online|Google|Samantha|Aria|Jenny/i.test(x.name); })[0] || vs.filter(function (x) { return /en/i.test(x.lang); })[0];
+      if (pick) u.voice = pick;
+      var start = Date.now(), est = Math.max(4000, text.split(/\s+/).length * 420), t;
+      u.onstart = function () { t = setInterval(function () { if (bar) bar.style.width = Math.min(100, (Date.now() - start) / est * 100) + '%'; }, 200); };
+      u.onend = u.onerror = function () { clearInterval(t); v.classList.remove('playing'); if (bar) bar.style.width = '0'; current = null; };
+      window.speechSynthesis.cancel(); window.speechSynthesis.speak(u);
+    }
+    play.addEventListener('click', function () {
+      if (v.classList.contains('playing')) { stopAll(); return; }
+      stopAll(); v.classList.add('playing'); current = v;
+      if (audio && usable !== false) {
+        audio.currentTime = 0;
+        audio.play().catch(function () { v.classList.add('synth'); speak(); });
+      } else { speak(); }
+    });
+    if (read) read.addEventListener('click', function () { v.classList.toggle('open'); read.textContent = v.classList.contains('open') ? 'Hide the words' : 'Read the words'; });
+  });
+})();
+
+/* ---- scroll art (v1.2): <svg class="scrollart" data-scrollart="mandala"></svg> inside the sticky .brand.
+   Draws a mandala ring by ring from the center as the student scrolls; scrolling up undraws it. ---- */
+(function () {
+  'use strict';
+  var NS = 'http://www.w3.org/2000/svg';
+  function el(n, a) { var e = document.createElementNS(NS, n); for (var k in a) e.setAttribute(k, a[k]); return e; }
+  function mandala(svg) {
+    svg.setAttribute('viewBox', '-50 -50 100 100');
+    var rings = [], g;
+    /* ring 0: center dot */
+    g = el('g', {}); g.appendChild(el('circle', { cx: 0, cy: 0, r: 3.2, fill: 'var(--spark)', stroke: 'none' })); rings.push(g);
+    /* ring 1: 8 petals */
+    g = el('g', {}); for (var i = 0; i < 8; i++) g.appendChild(el('path', { d: 'M0 -5 C 4 -11, 4 -19, 0 -22 C -4 -19, -4 -11, 0 -5 Z', transform: 'rotate(' + (i * 45) + ')', fill: 'var(--make)', stroke: '#fff', 'stroke-width': .8 })); rings.push(g);
+    /* ring 2: thin circle + 16 dots */
+    g = el('g', {}); g.appendChild(el('circle', { cx: 0, cy: 0, r: 26, fill: 'none', stroke: 'var(--brand-sky)', 'stroke-width': 1.2 }));
+    for (i = 0; i < 16; i++) { var a = i * Math.PI / 8; g.appendChild(el('circle', { cx: Math.cos(a) * 26, cy: Math.sin(a) * 26, r: 1.6, fill: '#fff' })); } rings.push(g);
+    /* ring 3: 8 diamonds */
+    g = el('g', {}); for (i = 0; i < 8; i++) g.appendChild(el('path', { d: 'M0 -30 L 4 -36 L 0 -42 L -4 -36 Z', transform: 'rotate(' + (i * 45 + 22.5) + ')', fill: 'var(--spark)', stroke: 'none' })); rings.push(g);
+    /* ring 4: 16 small petals */
+    g = el('g', {}); for (i = 0; i < 16; i++) g.appendChild(el('path', { d: 'M0 -32 C 2.2 -35, 2.2 -40, 0 -43 C -2.2 -40, -2.2 -35, 0 -32 Z', transform: 'rotate(' + (i * 22.5) + ')', fill: 'var(--brand-sky)', stroke: 'none' })); rings.push(g);
+    /* ring 5: scalloped outer edge */
+    g = el('g', {}); for (i = 0; i < 24; i++) { var b = i * Math.PI / 12; g.appendChild(el('circle', { cx: Math.cos(b) * 45, cy: Math.sin(b) * 45, r: 2.2, fill: 'var(--make)' })); } rings.push(g);
+    /* ring 6: outer circle */
+    g = el('g', {}); g.appendChild(el('circle', { cx: 0, cy: 0, r: 48.5, fill: 'none', stroke: '#fff', 'stroke-width': 1.2, 'stroke-dasharray': 1, pathLength: 1 })); rings.push(g);
+    rings.forEach(function (r) { r.style.transition = 'opacity .25s, transform .25s'; r.style.transformOrigin = '0 0'; svg.appendChild(r); });
+    return rings;
+  }
+  document.querySelectorAll('.scrollart').forEach(function (svg) {
+    var rings = (svg.dataset.scrollart === 'mandala') ? mandala(svg) : [];
+    if (!rings.length) return;
+    var n = rings.length, scroller = document.scrollingElement || document.documentElement, ticking = false;
+    function paint() {
+      ticking = false;
+      var max = scroller.scrollHeight - window.innerHeight, p = max > 0 ? Math.min(1, Math.max(0, scroller.scrollTop / max)) : 1;
+      rings.forEach(function (r, i) {
+        var local = Math.min(1, Math.max(0, (p * n - i) ));         /* 0..1 for this ring */
+        r.style.opacity = local; r.style.transform = 'scale(' + (0.6 + 0.4 * local) + ')';
+        var c = r.querySelector('[pathLength]'); if (c) c.setAttribute('stroke-dashoffset', 1 - local);
+      });
+      svg.style.setProperty('--p', p);
+    }
+    window.addEventListener('scroll', function () { if (!ticking) { ticking = true; requestAnimationFrame(paint); } }, { passive: true });
+    window.addEventListener('resize', paint); paint();
+  });
+})();
+
+/* ---- vocabulary drawers (v1.2): .cabinet > button.drawer > .front + .inside ---- */
+(function () {
+  'use strict';
+  document.addEventListener('click', function (e) {
+    var d = e.target.closest('.drawer'); if (!d) return;
+    var open = d.classList.contains('open');
+    d.closest('.cabinet').querySelectorAll('.drawer').forEach(function (x) { x.classList.remove('open'); x.setAttribute('aria-expanded', 'false'); });
+    if (!open) { d.classList.add('open'); d.setAttribute('aria-expanded', 'true'); }
+  });
+})();
+</script>
+<script>
+/* Licensed images are not stored in this repo. The Canvas page passes their
+   Canvas file URLs in the iframe hash: #woodblock=<url>&manjushri=<url> */
+(function () {
+  var p = new URLSearchParams(location.hash.slice(1));
+  document.querySelectorAll('img[data-art]').forEach(function (img) {
+    var u = p.get(img.dataset.art);
+    if (u && /^https:\/\/optimaoaoteam\.instructure\.com\//.test(u)) img.src = u;
+    else img.closest('figure').hidden = true;
+  });
+})();
+</script>
+</body>
+</html>
